@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Marejar</title>
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    :root {
+      --primary-dark: #0c4352;
+      --primary-mid: #165e70;
+      --accent-soft: #e6f2f5;
+      --text-dark: #102a32;
+      --text-muted: #5c737a;
+      --border-radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef4f6;
+      font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+      color: var(--text-dark);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f8fbfc;
+      position: relative;
+      overflow-x: hidden;
+      box-shadow: 0 12px 32px rgba(12, 67, 82, 0.12);
+    }
+
+    .home-header {
+      background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+      color: #ffffff;
+      padding: 20px 18px 24px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 6px 18px rgba(12, 67, 82, 0.16);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .location-badge {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .xp-pill {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: var(--border-radius-pill);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      background: #ffffff;
+      border-radius: var(--border-radius-pill);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dark);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      background: transparent;
+    }
+
+    .category-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px 4px;
+      scrollbar-width: none;
+    }
+
+    .category-strip::-webkit-scrollbar { display: none; }
+
+    .cat-chip {
+      border: 1px solid #cfe0e5;
+      background: #ffffff;
+      color: var(--primary-dark);
+      border-radius: var(--border-radius-pill);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .cat-chip.active {
+      background: var(--primary-dark);
+      color: #ffffff;
+      border-color: var(--primary-dark);
+    }
+
+    .content-body {
+      padding: 12px 16px 96px;
+      overflow-y: auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 12px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      color: var(--primary-dark);
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .section-link {
+      font-size: 0.75rem;
+      color: var(--primary-mid);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .mobile-package-card {
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(12, 67, 82, 0.06);
+      border: 1px solid #e4eef1;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mobile-package-img {
+      height: 145px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1b6b80, #0c4352);
+    }
+
+    .mobile-package-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tag-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(12, 67, 82, 0.88);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: var(--border-radius-pill);
+      font-weight: 600;
+    }
+
+    .mobile-package-content {
+      padding: 12px 14px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .card-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #eff4f6;
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-details {
+      background: var(--primary-dark);
+      color: #ffffff;
+      padding: 6px 13px;
+      border-radius: var(--border-radius-pill);
+      font-size: 0.75rem;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-top: 1px solid #dce8ec;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 10px;
+      z-index: 30;
+      box-shadow: 0 -4px 16px rgba(12, 67, 82, 0.08);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      text-decoration: none;
+      color: #6b828a;
+      font-size: 0.66rem;
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .nav-item.active {
+      color: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+  <main class="app-container">
+    <header class="home-header">
+      <div class="top-bar">
+        <div class="location-badge">📍 ETE Jurandir Bezerra Lins • Litoral PE</div>
+        <img src="..assets/img/Logo-branca" alt="">
+      </div>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="search" id="homeSearchInput" placeholder="Para onde você quer ir? (ex: Itamaracá, Goiana...)">
+      </div>
+    </header>
+
+    <div class="category-strip" id="categoryStrip">
+      <button type="button" class="cat-chip active" data-cat="todos">Todos</button>
+      <button type="button" class="cat-chip" data-cat="Praias">🏖️ Praias</button>
+      <button type="button" class="cat-chip" data-cat="História">🏛️ História</button>
+      <button type="button" class="cat-chip" data-cat="Cultura">🎭 Cultura</button>
+      <button type="button" class="cat-chip" data-cat="Gastronomia">🍤 Gastronomia</button>
+    </div>
+
+    <div class="content-body">
+      <div class="section-header">
+        <h3 class="section-title">Destinos e Vivências Populares</h3>
+        <a href="roteiros.html" class="section-link">Ver roteiros →</a>
+      </div>
+      <div id="homeCardsContainer"></div>
+    </div>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item active">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Início
+      </a>
+      <a href="roteiros.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Roteiros
+      </a>
+      <a href="assistente.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        IA
+      </a>
+      <a href="guias.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Caça-maré
+      </a>
+      <a href="perfil.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        Perfil
+      </a>
+    </nav>
+  </main>
+
+  <script>
+    const VIVENCIAS_HOME = [
+      {
+        id: 'ponta-de-pedras',
+        titulo: 'Praias e Piscinas Naturais',
+        local: 'Ponta de Pedras',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 240,00',
+        categoria: 'Praias',
+        descricao: 'Aproveite as belezas das praias locais com águas mornas e calmas na maré baixa.',
+        imagem: '../assets/img/cidades/goiana/ponta_de_pedras02.jpg'
+      },
+      {
+        id: 'forte-orange',
+        titulo: 'Imersão Histórica no Forte Orange',
+        local: 'Itamaracá - PE',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 90,00',
+        categoria: 'História',
+        descricao: 'Conheça a história colonial holandesa às margens do canal de Santa Cruz.',
+        imagem: '../assets/img/cidades/itamaraca/forte-orange-1068x712.webp'
+      },
+      {
+        id: 'tradicoes-goiana',
+        titulo: 'Tradições e Marés de Goiana',
+        local: 'Goiana',
+        dias: '2 dias',
+        pessoas: '2 pessoas',
+        preco: 'R$ 300,00',
+        categoria: 'Cultura',
+        descricao: 'Vivência completa guiada por especialistas locais pelas riquezas da região.',
+        imagem: '../assets/img/cidades/goiana/croa da baleia.jpg'
+      },
+      {
+        id: 'olinda',
+        titulo: 'Rota Histórica de olinda',
+        local: 'Olinda',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 150,00',
+        categoria: 'Gastronomia',
+        descricao: 'Ladeiras históricas, igrejas seculares e parada gastronômica com guia local.',
+        imagem: '../assets/img/cidades/olinda/Mercado-da-Ribeira-Olinda-PE-MTur.webp'
+      }
+    ];
+
+    let categoriaSelecionada = 'todos';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      atualizarBadgeXp();
+      renderizarCardsHome();
+
+      document.getElementById('homeSearchInput').addEventListener('input', renderizarCardsHome);
+      document.querySelectorAll('.cat-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          categoriaSelecionada = btn.dataset.cat;
+          renderizarCardsHome();
+        });
+      });
+    });
+
+    function atualizarBadgeXp() {
+      try {
+        const jornada = JSON.parse(localStorage.getItem('marejar_jornada_v1'));
+        if (jornada && typeof jornada.saldoPontos === 'number') {
+          document.getElementById('home-xp-badge').textContent = `⭐ ${jornada.saldoPontos} XP`;
+        }
+      } catch (_) {}
+    }
+
+    function renderizarCardsHome() {
+      const termo = document.getElementById('homeSearchInput').value.trim().toLowerCase();
+      const container = document.getElementById('homeCardsContainer');
+
+      const filtrados = VIVENCIAS_HOME.filter(item => {
+        const bateCat = categoriaSelecionada === 'todos' || item.categoria === categoriaSelecionada;
+        const bateTexto = !termo ||
+          item.titulo.toLowerCase().includes(termo) ||
+          item.local.toLowerCase().includes(termo) ||
+          item.descricao.toLowerCase().includes(termo);
+        return bateCat && bateTexto;
+      });
+
+      if (!filtrados.length) {
+        container.innerHTML = `<div class="mobile-package-card p-3 text-center" style="padding:18px;font-size:0.85rem;color:#5c737a;">Nenhuma vivência encontrada para esse filtro.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtrados.map(item => `
+        <article class="mobile-package-card">
+          <div class="mobile-package-img">
+            <span class="tag-badge">${item.categoria}</span>
+            <img src="${item.imagem}" alt="${item.titulo}" onerror="this.style.display='none'">
+          </div>
+          <div class="mobile-package-content">
+            <div class="meta-row">
+              <span>📍 ${item.local}</span>
+              <span>📅 ${item.dias}</span>
+              <span>👥 ${item.pessoas}</span>
+            </div>
+            <h4 style="font-size:0.96rem;margin:0 0 6px;color:var(--primary-dark);">${item.titulo}</h4>
+            <p style="font-size:0.76rem;color:var(--text-muted);margin:0;line-height:1.4;">${item.descricao}</p>
+            <div class="card-footer-row">
+              <div>
+                <span style="font-size:0.65rem;color:#7d939b;display:block;">A partir de</span>
+                <strong style="font-size:0.88rem;color:var(--primary-dark);">${item.preco}</strong>
+              </div>
+              <a href="roteiros.html?destino=${encodeURIComponent(item.id)}" class="btn-details">Ver Detalhes</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

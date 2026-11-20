@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Marejar</title>
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <style>
+    .auth-header {
+      padding: 32px 24px 24px;
+      text-align: center;
+      background-color: var(--bg-light);
+    }
+    .auth-header h1 {
+      font-family: Georgia, serif;
+      color: var(--primary-dark);
+      letter-spacing: 2px;
+      font-size: 1.8rem;
+    }
+    .auth-card {
+      flex: 1;
+      background-color: var(--primary-dark);
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      padding: 32px 24px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+    .auth-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--border-radius-pill);
+      border: none;
+      background-color: var(--input-bg);
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .forgot-link {
+      text-align: center;
+      display: block;
+      color: #ffffff;
+      font-size: 0.8rem;
+      text-decoration: underline;
+      margin: 8px 0 24px;
+    }
+    .submit-wrapper {
+      text-align: center;
+    }
+    /* Estilo para o botão quando desativado */
+    .btn-custom {
+      background: transparent;
+      border: 2px solid var(--surface-white);
+      color: var(--surface-white);
+      padding: 12px 36px;
+      border-radius: var(--border-radius-pill);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      transition: 0.2s;
+    }
+    .btn-custom:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .btn-custom:not(:disabled):hover {
+      background: var(--surface-white);
+      color: var(--primary-dark);
+    }
+    .register-prompt {
+      margin-top: auto;
+      text-align: center;
+      font-size: 0.85rem;
+      padding-top: 20px;
+    }
+    .register-prompt a {
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main class="app-container">
+    <header class="auth-header">
+      <h1>MAREJAR</h1>
+    </header>
+
+    <section class="auth-card">
+      <h2>Login</h2>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="hello@reallygreatsite.com" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="••••••••">
+        </div>
+
+        <a href="#" class="forgot-link">Esqueci minha senha</a>
+
+        <div class="submit-wrapper">
+          <!-- Botão começa desativado (disabled) -->
+          <button type="submit" id="btnProximo" class="btn-custom" disabled>Próximo</button>
+        </div>
+      </form>
+
+      <p class="register-prompt">
+        Não possui uma conta? <a href="cadastro.html">Realize o cadastro.</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const emailInput = document.getElementById('email');
+    const senhaInput = document.getElementById('senha');
+    const btnProximo = document.getElementById('btnProximo');
+    const loginForm = document.getElementById('loginForm');
+
+    // Função que verifica se ambos os campos contêm texto
+    function validarCampos() {
+      if (emailInput.value.trim() !== "" && senhaInput.value.trim() !== "") {
+        btnProximo.removeAttribute('disabled');
+      } else {
+        btnProximo.setAttribute('disabled', 'true');
+      }
+    }
+
+    // Ouve qualquer alteração nos inputs
+    emailInput.addEventListener('input', validarCampos);
+    senhaInput.addEventListener('input', validarCampos);
+
+    // Evento ao submeter o formulário (leva para a Home)
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // Evita recarregar a página
+      // Simula o login bem-sucedido e redireciona para a tela principal
+      window.location.href = 'home.html';
+    });
+  </script>
+</body>
+</html>

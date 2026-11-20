@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caça-maré - Marejar</title>
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    :root {
+      --primary-dark: #0c4352;
+      --primary-mid: #165e70;
+      --text-dark: #102a32;
+      --text-muted: #5c737a;
+      --border-radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef4f6;
+      font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+      color: var(--text-dark);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f8fbfc;
+      padding-bottom: 98px;
+      box-shadow: 0 12px 32px rgba(12, 67, 82, 0.12);
+    }
+
+    .hunt-header {
+      background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+      color: #fff;
+      padding: 20px 18px 24px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    .hunt-header h1 { margin: 4px 0; font-size: 1.25rem; }
+    .hunt-header p { margin: 0; font-size: 0.76rem; opacity: 0.88; }
+
+    .body-wrap { padding: 14px 16px; }
+
+    .xp-card {
+      background: #fff;
+      border: 1px solid #e1edf1;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(12, 67, 82, 0.06);
+    }
+
+    .xp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      height: 9px;
+      background: #e4eef2;
+      border-radius: var(--border-radius-pill);
+      overflow: hidden;
+      margin: 8px 0 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #f2b705;
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      text-align: center;
+      border-top: 1px solid #eef4f6;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 0.74rem;
+    }
+
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill-btn {
+      border: 1px solid #cfe0e5;
+      background: #fff;
+      color: var(--primary-dark);
+      border-radius: var(--border-radius-pill);
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pill-btn.active {
+      background: var(--primary-dark);
+      color: #fff;
+      border-color: var(--primary-dark);
+    }
+
+    .select-roteiro {
+      border: 1px solid #cfe0e5;
+      background: #fff;
+      color: var(--primary-dark);
+      border-radius: var(--border-radius-pill);
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .mission-item {
+      background: #fff;
+      border: 1px solid #e3eef2;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .mission-item.done { border-left: 4px solid #198754; }
+    .mission-item.review { border-left: 4px solid #e08e0b; }
+
+    .badge-xp {
+      background: #fff8dc;
+      color: #7c5800;
+      border: 1px solid #f5df8c;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--border-radius-pill);
+      white-space: nowrap;
+    }
+
+    .badge-done {
+      background: #d8f3e5;
+      color: #135c36;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--border-radius-pill);
+    }
+
+    .badge-pend {
+      background: #eef3f5;
+      color: #3c545c;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--border-radius-pill);
+    }
+
+    .btn-action {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius-pill);
+      padding: 6px 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-action:disabled {
+      background: #b8c9cf;
+      cursor: not-allowed;
+    }
+
+    .reward-box, .history-box, .medal-box {
+      background: #fff;
+      border: 1px solid #e2eef2;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 34, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: #fff;
+      width: 100%;
+      max-width: 390px;
+      border-radius: 20px;
+      padding: 16px;
+      max-height: 88vh;
+      overflow-y: auto;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-top: 1px solid #dce8ec;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 10px;
+      z-index: 30;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      text-decoration: none;
+      color: #6b828a;
+      font-size: 0.66rem;
+      font-weight: 600;
+    }
+
+    .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+    .nav-item.active { color: var(--primary-dark); }
+  </style>
+</head>
+<body>
+  <main class="app-container">
+    <header class="hunt-header">
+      <span style="font-size:0.7rem;background:rgba(255,255,255,0.16);padding:3px 10px;border-radius:999px;">🏆 Jornada &amp; Gamificação</span>
+      <h1>Caça-maré</h1>
+      <p>Complete missões nos roteiros, envie evidências e resgate recompensas</p>
+    </header>
+
+    <div class="body-wrap">
+      <div class="xp-card">
+        <div class="xp-top">
+          <div>
+            <small style="color:var(--text-muted);font-weight:700;font-size:0.68rem;">SALDO DE PONTOS</small>
+            <h2 id="saldo-pontos-display" style="margin:2px 0 0;color:var(--primary-dark);">0 XP</h2>
+          </div>
+          <span id="total-acumulado-display" class="badge-xp">Total ganho: 0 XP</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="barra-progresso-xp"></div>
+        </div>
+        <small id="texto-proximo-nivel" style="color:var(--text-muted);font-size:0.72rem;"></small>
+        <div class="stats-strip">
+          <div><strong id="stat-concluidas" style="color:#198754;">0</strong><br><small style="color:var(--text-muted);">Concluídas</small></div>
+          <div><strong id="stat-pendentes" style="color:#0c4352;">0</strong><br><small style="color:var(--text-muted);">Pendentes</small></div>
+          <div><strong id="stat-total" style="color:#165e70;">0</strong><br><small style="color:var(--text-muted);">Total</small></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <strong style="font-size:0.88rem;color:var(--primary-dark);">🏅 Conquistas por Região</strong>
+        <button type="button" id="btn-resetar-progresso" style="background:none;border:none;color:#165e70;font-size:0.72rem;font-weight:700;cursor:pointer;">Resetar teste</button>
+      </div>
+      <div id="conquistas-regiao-container" style="margin-bottom:14px;"></div>
+
+      <div class="controls-bar">
+        <div class="filter-pills">
+          <button type="button" class="pill-btn active" data-filtro="todas">Todas</button>
+          <button type="button" class="pill-btn" data-filtro="pendente">Pendentes</button>
+          <button type="button" class="pill-btn" data-filtro="concluida">Concluídas</button>
+        </div>
+        <select id="select-roteiro" class="select-roteiro" aria-label="Selecionar roteiro"></select>
+      </div>
+
+      <div id="lista-missoes-container" style="margin-bottom:16px;"></div>
+
+      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">🎁 Loja de Recompensas</strong>
+      <div id="catalogo-recompensas" style="margin-bottom:16px;"></div>
+
+      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">📜 Histórico de Conquistas e Resgates</strong>
+      <div id="historico-container" class="history-box" style="font-size:0.76rem;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="modal-backdrop" id="modalEvidencia">
+      <div class="modal-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3 id="modal-missao-titulo" style="margin:0;font-size:1rem;color:var(--primary-dark);">Enviar evidência</h3>
+          <button type="button" onclick="fecharModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;">✕</button>
+        </div>
+        <p id="modal-missao-descricao" style="margin:0 0 8px;font-size:0.76rem;color:var(--text-muted);"></p>
+        <div style="margin-bottom:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <span id="modal-missao-categoria" class="badge-pend"></span>
+          <span id="modal-missao-pontos" class="badge-xp"></span>
+        </div>
+        <form id="form-evidencia">
+          <label style="display:block;font-size:0.75rem;font-weight:700;margin-bottom:4px;">Foto ou vídeo da experiência</label>
+          <input type="file" id="input-arquivo-evidencia" accept="image/*,video/*" required style="width:100%;font-size:0.75rem;margin-bottom:10px;">
+          <div id="preview-evidencia-box" style="display:none;text-align:center;margin-bottom:10px;">
+            <img id="preview-evidencia-img" style="display:none;max-width:100%;max-height:160px;border-radius:10px;" alt="Prévia">
+            <div id="preview-evidencia-video" style="display:none;font-size:0.75rem;"></div>
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:6px;font-size:0.72rem;color:var(--text-muted);margin-bottom:12px;">
+            <input type="checkbox" id="check-consentimento" required style="margin-top:2px;">
+            <span>Autorizo o uso desta evidência para validação da missão no Caça-maré.</span>
+          </label>
+          <div style="display:flex;justify-content:flex-end;gap:8px;">
+            <button type="button" onclick="fecharModal()" class="pill-btn">Cancelar</button>
+            <button type="submit" class="btn-action">Validar e concluir</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Início
+      </a>
+      <a href="roteiros.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Roteiros
+      </a>
+      <a href="assistente.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        IA
+      </a>
+      <a href="guias.html" class="nav-item active">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Caça-maré
+      </a>
+      <a href="perfil.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        Perfil
+      </a>
+    </nav>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'marejar_jornada_v1';
+    const DADOS_INICIAIS = {
+      roteiroAtivoId: 'olinda-recife',
+      filtroAtivo: 'todas',
+      saldoPontos: 450,
+      totalPontosGanho: 450,
+      roteiros: [
+        {
+          id: 'olinda-recife',
+          nome: 'Olinda e Recife',
+          tituloMedalha: 'Explorador de Olinda',
+          descricaoMedalha: 'Conclua todas as missões do roteiro de Olinda e Recife.',
+          missoes: [
+            { id: 'm-1', titulo: 'Visite o Forte das Cinco Pontas', descricao: 'Registre uma foto no local para comprovar sua visita.', categoria: 'Exploração', tipo: 'Principal', pontos: 100, status: 'concluida' },
+            { id: 'm-2', titulo: 'Explore o centro histórico', descricao: 'Encontre um cenário interessante e registre sua experiência.', categoria: 'Cultura local', tipo: 'Principal', pontos: 150, status: 'pendente' },
+            { id: 'm-3', titulo: 'Experimente um sabor regional', descricao: 'Fotografe um prato típico em um estabelecimento parceiro.', categoria: 'Gastronomia', tipo: 'Principal', pontos: 200, status: 'pendente' },
+            { id: 'm-4', titulo: 'Vista panorâmica no Alto da Sé', descricao: 'Missão opcional para registrar a vista do litoral e igrejas.', categoria: 'Natureza', tipo: 'Secundária', pontos: 150, status: 'pendente' }
+          ]
+        },
+        {
+          id: 'litoral-norte',
+          nome: 'Litoral Norte (Paulista/Igarassu)',
+          tituloMedalha: 'Desbravador do Litoral Norte',
+          descricaoMedalha: 'Complete as missões de Paulista e Igarassu.',
+          missoes: [
+            { id: 'm-5', titulo: 'Caminhada à beira-mar em Paulista', descricao: 'Registre uma foto da orla ou área verde local.', categoria: 'Natureza', tipo: 'Principal', pontos: 120, status: 'pendente' },
+            { id: 'm-6', titulo: 'Patrimônio histórico de Igarassu', descricao: 'Fotografe um marco histórico ou cultural da cidade.', categoria: 'Exploração', tipo: 'Principal', pontos: 180, status: 'pendente' }
+          ]
+        }
+      ],
+      recompensas: [
+        { id: 'r-1', titulo: 'Brinde de estabelecimento parceiro', descricao: 'Item cortesia em comércio local participante.', custo: 300, parceiro: 'Bistrô Litoral' },
+        { id: 'r-2', titulo: '10% de desconto', descricao: 'Desconto em consumação ou passeio selecionado.', custo: 500, parceiro: 'Rede Marejar' },
+        { id: 'r-3', titulo: '15% de desconto', descricao: 'Desconto especial em experiências credenciadas.', custo: 800, parceiro: 'Parceiros PE' },
+        { id: 'r-4', titulo: 'Experiência especial', descricao: 'Vivência cultural ou gastronômica diferenciada.', custo: 1200, parceiro: 'Curadoria Marejar' }
+      ],
+      historico: [
+        { id: 'h-init', texto: 'Missão inicial "Visite o Forte das Cinco Pontas" concluída (+100 XP)', data: 'Registro inicial', tipo: 'conquista' }
+      ]
+    };
+
+    let estado = carregarEstado();
+    let missaoAtualId = null;
+
+    function carregarEstado() {
+      try {
+        const salvo = localStorage.getItem(STORAGE_KEY);
+        if (!salvo) return structuredClone(DADOS_INICIAIS);
+        const parsed = JSON.parse(salvo);
+        return parsed && Array.isArray(parsed.roteiros) ? parsed : structuredClone(DADOS_INICIAIS);
+      } catch (_) {
+        return structuredClone(DADOS_INICIAIS);
+      }
+    }
+
+    function salvarEstado() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+    }
+
+    function obterRoteiro() {
+      return estado.roteiros.find(r => r.id === estado.roteiroAtivoId) || estado.roteiros[0];
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-filtro]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          estado.filtroAtivo = btn.dataset.filtro;
+          document.querySelectorAll('[data-filtro]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          salvarEstado();
+          renderMissoes();
+        });
+      });
+
+      const selectRot = document.getElementById('select-roteiro');
+      selectRot.innerHTML = estado.roteiros.map(r => `<option value="${r.id}">${r.nome}</option>`).join('');
+      selectRot.value = estado.roteiroAtivoId;
+      selectRot.addEventListener('change', e => {
+        estado.roteiroAtivoId = e.target.value;
+        salvarEstado();
+        renderTudo();
+      });
+
+      document.getElementById('input-arquivo-evidencia').addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        const box = document.getElementById('preview-evidencia-box');
+        const img = document.getElementById('preview-evidencia-img');
+        const vid = document.getElementById('preview-evidencia-video');
+        if (!file) { box.style.display = 'none'; return; }
+        box.style.display = 'block';
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = ev => {
+            img.src = ev.target.result;
+            img.style.display = 'inline-block';
+            vid.style.display = 'none';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          img.style.display = 'none';
+          vid.style.display = 'block';
+          vid.textContent = `🎬 ${file.name}`;
+        }
+      });
+
+      document.getElementById('form-evidencia').addEventListener('submit', e => {
+        e.preventDefault();
+        const file = document.getElementById('input-arquivo-evidencia').files[0];
+        const rot = obterRoteiro();
+        const missao = rot.missoes.find(m => m.id === missaoAtualId);
+        if (!file || !missao) return;
+
+        const agora = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+        if (file.size >= 4096) {
+          if (missao.status !== 'concluida') {
+            missao.status = 'concluida';
+            estado.saldoPontos += missao.pontos;
+            estado.totalPontosGanho += missao.pontos;
+            estado.historico.unshift({ id: `h-${Date.now()}`, texto: `Missão "${missao.titulo}" validada (+${missao.pontos} XP)`, data: agora, tipo: 'conquista' });
+          }
+        } else {
+          missao.status = 'revisao';
+          estado.historico.unshift({ id: `h-${Date.now()}`, texto: `Evidência de "${missao.titulo}" enviada para revisão`, data: agora, tipo: 'revisao' });
+        }
+
+        salvarEstado();
+        fecharModal();
+        renderTudo();
+      });
+
+      document.getElementById('btn-resetar-progresso').addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        estado = structuredClone(DADOS_INICIAIS);
+        salvarEstado();
+        renderTudo();
+      });
+
+      renderTudo();
+    });
+
+    function abrirModal(missaoId) {
+      const rot = obterRoteiro();
+      const missao = rot.missoes.find(m => m.id === missaoId);
+      if (!missao) return;
+      missaoAtualId = missao.id;
+      document.getElementById('modal-missao-titulo').textContent = missao.titulo;
+      document.getElementById('modal-missao-descricao').textContent = missao.descricao;
+      document.getElementById('modal-missao-categoria').textContent = missao.categoria;
+      document.getElementById('modal-missao-pontos').textContent = `+${missao.pontos} XP`;
+      document.getElementById('form-evidencia').reset();
+      document.getElementById('preview-evidencia-box').style.display = 'none';
+      document.getElementById('modalEvidencia').classList.add('open');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalEvidencia').classList.remove('open');
+    }
+
+    function resgatarRecompensa(id) {
+      const rec = estado.recompensas.find(r => r.id === id);
+      if (!rec || estado.saldoPontos < rec.custo) return;
+      estado.saldoPontos -= rec.custo;
+      const codigo = `MAREJAR-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+      const agora = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+      estado.historico.unshift({ id: `h-${Date.now()}`, texto: `Resgate: "${rec.titulo}" (${rec.custo} XP) — Código: ${codigo}`, data: agora, tipo: 'resgate' });
+      salvarEstado();
+      renderTudo();
+    }
+
+    function renderTudo() {
+      const rot = obterRoteiro();
+      const total = rot.missoes.length;
+      const concluidas = rot.missoes.filter(m => m.status === 'concluida').length;
+      const pendentes = total - concluidas;
+      const meta = 600;
+      const pct = Math.min(100, Math.round((estado.saldoPontos / meta) * 100));
+
+      document.getElementById('saldo-pontos-display').textContent = `${estado.saldoPontos} XP`;
+      document.getElementById('total-acumulado-display').textContent = `Total ganho: ${estado.totalPontosGanho} XP`;
+      document.getElementById('barra-progresso-xp').style.width = `${pct}%`;
+      document.getElementById('texto-proximo-nivel').textContent = estado.saldoPontos < meta
+        ? `Faltam ${meta - estado.saldoPontos} XP para alcançar ${meta} XP!`
+        : `Meta de ${meta} XP atingida!`;
+
+      document.getElementById('stat-concluidas').textContent = concluidas;
+      document.getElementById('stat-pendentes').textContent = pendentes;
+      document.getElementById('stat-total').textContent = total;
+
+      document.getElementById('conquistas-regiao-container').innerHTML = estado.roteiros.map(r => {
+        const doneCount = r.missoes.filter(m => m.status === 'concluida').length;
+        const unlocked = r.missoes.length > 0 && doneCount === r.missoes.length;
+        return `
+          <div class="medal-box" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <div>
+              <strong style="font-size:0.82rem;color:var(--primary-dark);">${r.tituloMedalha}</strong>
+              <div style="font-size:0.7rem;color:var(--text-muted);">${r.descricaoMedalha}</div>
+            </div>
+            <span class="${unlocked ? 'badge-xp' : 'badge-pend'}">${unlocked ? 'Desbloqueada' : `${doneCount}/${r.missoes.length}`}</span>
+          </div>
+        `;
+      }).join('');
+
+      renderMissoes();
+
+      document.getElementById('catalogo-recompensas').innerHTML = estado.recompensas.map(rec => {
+        const ok = estado.saldoPontos >= rec.custo;
+        return `
+          <div class="reward-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <strong style="font-size:0.85rem;color:var(--primary-dark);">${rec.titulo}</strong>
+              <span class="badge-xp">${rec.custo} XP</span>
+            </div>
+            <p style="margin:0 0 8px;font-size:0.74rem;color:var(--text-muted);">${rec.descricao} (${rec.parceiro})</p>
+            <button type="button" class="btn-action" ${ok ? `onclick="resgatarRecompensa('${rec.id}')"` : 'disabled'}>
+              ${ok ? 'Resgatar benefício' : `Faltam ${rec.custo - estado.saldoPontos} XP`}
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('historico-container').innerHTML = estado.historico.slice(0, 6).map(h => `
+        <div style="padding:6px 0;border-bottom:1px solid #eef4f6;display:flex;justify-content:space-between;gap:8px;">
+          <span>${h.texto}</span>
+          <span style="white-space:nowrap;font-size:0.68rem;">${h.data}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderMissoes() {
+      const rot = obterRoteiro();
+      const lista = rot.missoes.filter(m => {
+        if (estado.filtroAtivo === 'concluida') return m.status === 'concluida';
+        if (estado.filtroAtivo === 'pendente') return m.status !== 'concluida';
+        return true;
+      });
+
+      document.getElementById('lista-missoes-container').innerHTML = lista.map(m => {
+        const done = m.status === 'concluida';
+        const rev = m.status === 'revisao';
+        return `
+          <div class="mission-item ${done ? 'done' : rev ? 'review' : ''}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px;">
+              <strong style="font-size:0.88rem;color:var(--primary-dark);">${m.titulo}</strong>
+              <span class="badge-xp">+${m.pontos} XP</span>
+            </div>
+            <p style="margin:0 0 8px;font-size:0.74rem;color:var(--text-muted);">${m.descricao}</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+              <span class="${done ? 'badge-done' : 'badge-pend'}">${done ? '✓ Concluída' : rev ? '⏳ Em revisão' : '📷 Pendente'}</span>
+              ${done ? '<span style="font-size:0.72rem;color:#198754;font-weight:700;">Validada</span>'
+                     : `<button type="button" class="btn-action" onclick="abrirModal('${m.id}')">${rev ? 'Reenviar' : 'Enviar evidência'}</button>`}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

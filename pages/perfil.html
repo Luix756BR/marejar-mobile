@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Marejar</title>
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    :root {
+      --primary-dark: #0c4352;
+      --primary-mid: #165e70;
+      --text-dark: #102a32;
+      --text-muted: #5c737a;
+      --border-radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef4f6;
+      font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+      color: var(--text-dark);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f8fbfc;
+      padding-bottom: 98px;
+      box-shadow: 0 12px 32px rgba(12, 67, 82, 0.12);
+    }
+
+    .profile-banner {
+      background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+      color: #fff;
+      padding: 24px 18px 28px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar-circle {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .body-wrap { padding: 14px 16px; }
+
+    .card-box {
+      background: #fff;
+      border: 1px solid #e2eef2;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(12, 67, 82, 0.05);
+    }
+
+    .field-row {
+      margin-bottom: 10px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .field-value {
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      background: #f5f9fa;
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .field-input {
+      width: 100%;
+      font-size: 0.85rem;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #b8ced5;
+      background: #fff;
+      color: var(--text-dark);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-primary-m {
+      flex: 1;
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius-pill);
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-outline-m {
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid #c7dbe1;
+      border-radius: var(--border-radius-pill);
+      padding: 9px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-danger-m {
+      width: 100%;
+      background: #fff5f5;
+      color: #b42318;
+      border: 1px solid #f5c2c7;
+      border-radius: var(--border-radius-pill);
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-top: 1px solid #dce8ec;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 10px;
+      z-index: 30;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      text-decoration: none;
+      color: #6b828a;
+      font-size: 0.66rem;
+      font-weight: 600;
+    }
+
+    .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+    .nav-item.active { color: var(--primary-dark); }
+  </style>
+</head>
+<body>
+  <main class="app-container">
+    <header class="profile-banner">
+      <div class="avatar-circle" id="perfilAvatar">J</div>
+      <div>
+        <h1 id="perfilNomeTitulo" style="margin:0;font-size:1.15rem;">Juana Santos</h1>
+        <p id="perfilEmailSub" style="margin:2px 0 6px;font-size:0.75rem;opacity:0.88;">juanasantos2008@gmail.com</p>
+        <span style="font-size:0.68rem;background:rgba(255,255,255,0.18);padding:2px 9px;border-radius:999px;">Turista / Explorador</span>
+      </div>
+    </header>
+
+    <div class="body-wrap">
+      <div class="card-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <strong style="font-size:0.9rem;color:var(--primary-dark);">Informações da Conta</strong>
+          <span id="perfilXpResumo" style="font-size:0.74rem;font-weight:700;color:#165e70;">⭐ 450 XP</span>
+        </div>
+
+        <div id="viewMode">
+          <div class="field-row">
+            <span class="field-label">NOME COMPLETO</span>
+            <div class="field-value" id="viewNome">Juana Santos</div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">TELEFONE</span>
+            <div class="field-value" id="viewTelefone">81999999999</div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">CIDADE</span>
+            <div class="field-value" id="viewCidade">Igarassu</div>
+          </div>
+          <div class="field-row">
+            <span class="field-label">PREFERÊNCIA NO LITORAL</span>
+            <div class="field-value" id="viewPreferencia">Praias, História e Caça-maré</div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-primary-m" onclick="alternarEdicao(true)">✏️ Editar Perfil</button>
+            <a href="guias.html" class="btn-outline-m" style="text-decoration:none;display:inline-flex;align-items:center;">🏆 Caça-maré</a>
+          </div>
+        </div>
+
+        <form id="editMode" style="display:none;">
+          <div class="field-row">
+            <label class="field-label" for="inputNome">NOME COMPLETO</label>
+            <input type="text" id="inputNome" class="field-input" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="inputTelefone">TELEFONE</label>
+            <input type="text" id="inputTelefone" class="field-input">
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="inputCidade">CIDADE</label>
+            <input type="text" id="inputCidade" class="field-input">
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="inputPreferencia">PREFERÊNCIA NO LITORAL</label>
+            <input type="text" id="inputPreferencia" class="field-input">
+          </div>
+
+          <div class="btn-row">
+            <button type="submit" class="btn-primary-m">Salvar Alterações</button>
+            <button type="button" class="btn-outline-m" onclick="alternarEdicao(false)">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-box">
+        <strong style="display:block;font-size:0.88rem;color:var(--primary-dark);margin-bottom:8px;">Atalhos Rápidos</strong>
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:6px 0;border-bottom:1px solid #eef4f6;">
+          <span>Roteiros salvos</span>
+          <strong id="qtdRoteirosSalvos">0</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.78rem;padding:8px 0 2px;">
+          <span>Status de sessão</span>
+          <span style="color:#198754;font-weight:700;">Ativa</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn-danger-m" onclick="sairConta()">Sair da Conta</button>
+    </div>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Início
+      </a>
+      <a href="roteiros.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Roteiros
+      </a>
+      <a href="assistente.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        IA
+      </a>
+      <a href="guias.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Caça-maré
+      </a>
+      <a href="perfil.html" class="nav-item active">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        Perfil
+      </a>
+    </nav>
+  </main>
+
+  <script>
+    const PERFIL_KEY = 'marejar_user';
+    const PADRAO_PERFIL = {
+      name: 'Juana Santos',
+      email: 'juanasantos2008@gmail.com',
+      telefone: '81999999999',
+      cidade: 'Igarassu',
+      preferencia: 'Praias, História e Caça-maré'
+    };
+
+    let perfilAtual = carregarPerfil();
+
+    function carregarPerfil() {
+      try {
+        const raw = localStorage.getItem(PERFIL_KEY);
+        return raw ? { ...PADRAO_PERFIL, ...JSON.parse(raw) } : { ...PADRAO_PERFIL };
+      } catch (_) {
+        return { ...PADRAO_PERFIL };
+      }
+    }
+
+    function renderPerfil() {
+      const inicial = (perfilAtual.name || 'J').trim().charAt(0).toUpperCase();
+      document.getElementById('perfilAvatar').textContent = inicial;
+      document.getElementById('perfilNomeTitulo').textContent = perfilAtual.name;
+      document.getElementById('perfilEmailSub').textContent = perfilAtual.email;
+      document.getElementById('viewNome').textContent = perfilAtual.name;
+      document.getElementById('viewTelefone').textContent = perfilAtual.telefone || 'Não informado';
+      document.getElementById('viewCidade').textContent = perfilAtual.cidade || 'Igarassu';
+      document.getElementById('viewPreferencia').textContent = perfilAtual.preferencia || 'Litoral Norte';
+
+      try {
+        const jornada = JSON.parse(localStorage.getItem('marejar_jornada_v1'));
+        if (jornada && typeof jornada.saldoPontos === 'number') {
+          document.getElementById('perfilXpResumo').textContent = `⭐ ${jornada.saldoPontos} XP`;
+        }
+        const salvos = JSON.parse(localStorage.getItem('marejar_roteiros_salvos_v1')) || [];
+        document.getElementById('qtdRoteirosSalvos').textContent = salvos.length;
+      } catch (_) {}
+    }
+
+    function alternarEdicao(editar) {
+      document.getElementById('viewMode').style.display = editar ? 'none' : 'block';
+      document.getElementById('editMode').style.display = editar ? 'block' : 'none';
+      if (editar) {
+        document.getElementById('inputNome').value = perfilAtual.name;
+        document.getElementById('inputTelefone').value = perfilAtual.telefone || '';
+        document.getElementById('inputCidade').value = perfilAtual.cidade || '';
+        document.getElementById('inputPreferencia').value = perfilAtual.preferencia || '';
+      }
+    }
+
+    document.getElementById('editMode').addEventListener('submit', async e => {
+      e.preventDefault();
+      perfilAtual = {
+        ...perfilAtual,
+        name: document.getElementById('inputNome').value.trim() || PADRAO_PERFIL.name,
+        telefone: document.getElementById('inputTelefone').value.trim(),
+        cidade: document.getElementById('inputCidade').value.trim(),
+        preferencia: document.getElementById('inputPreferencia').value.trim()
+      };
+      localStorage.setItem(PERFIL_KEY, JSON.stringify(perfilAtual));
+
+      try {
+        await fetch('http://localhost:3001/api/users/update', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(perfilAtual)
+        });
+      } catch (_) {}
+
+      alternarEdicao(false);
+      renderPerfil();
+    });
+
+    function sairConta() {
+      localStorage.removeItem('marejar_token');
+      window.location.href = '../index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', renderPerfil);
+  </script>
+</body>
+</html>

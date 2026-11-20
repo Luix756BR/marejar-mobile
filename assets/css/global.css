@@ -1,0 +1,59 @@
+:root {
+  --primary-dark: #0f4c5c;    /* Azul petróleo profundo do protótipo */
+  --primary-light: #1b6b80;
+  --bg-light: #f4f7f8;        /* Fundo claro das telas internas */
+  --surface-white: #ffffff;
+  --input-bg: #d9e2e5;        /* Cinza azulado dos inputs */
+  --text-dark: #102a33;
+  --text-muted: #5c7680;
+  --border-radius-lg: 24px;
+  --border-radius-pill: 50px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #1e2426; /* Fundo escuro caso aberto no PC */
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Container principal que simula a tela do celular */
+.app-container {
+  width: 100%;
+  max-width: 430px; /* Largura padrão de smartphones modernos */
+  min-height: 100vh;
+  background-color: var(--bg-light);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Botões padrão */
+.btn-outline-light {
+  background: transparent;
+  border: 2px solid var(--surface-white);
+  color: var(--surface-white);
+  padding: 12px 36px;
+  border-radius: var(--border-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.btn-outline-light:hover {
+  background: var(--surface-white);
+  color: var(--primary-dark);
+}

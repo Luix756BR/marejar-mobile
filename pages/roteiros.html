@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roteiros - Marejar</title>
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    :root {
+      --primary-dark: #0c4352;
+      --primary-mid: #165e70;
+      --text-dark: #102a32;
+      --text-muted: #5c737a;
+      --border-radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef4f6;
+      font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+      color: var(--text-dark);
+    }
+
+    .app-container {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f8fbfc;
+      padding-bottom: 96px;
+      box-shadow: 0 12px 32px rgba(12, 67, 82, 0.12);
+    }
+
+    .page-header {
+      background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
+      color: #fff;
+      padding: 20px 18px 22px;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .page-header h1 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+    }
+
+    .page-header p {
+      margin: 0;
+      font-size: 0.78rem;
+      opacity: 0.88;
+    }
+
+    .city-filter-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px 16px 6px;
+      scrollbar-width: none;
+    }
+
+    .city-filter-row::-webkit-scrollbar { display: none; }
+
+    .city-btn {
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid #cfe0e5;
+      border-radius: var(--border-radius-pill);
+      padding: 6px 12px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .city-btn.active {
+      background: var(--primary-dark);
+      color: #fff;
+      border-color: var(--primary-dark);
+    }
+
+    .roteiros-list {
+      padding: 10px 16px;
+    }
+
+    .roteiro-card {
+      background: #fff;
+      border: 1px solid #e3eef2;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(12, 67, 82, 0.05);
+    }
+
+    .roteiro-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .roteiro-badge {
+      background: #e6f3f6;
+      color: var(--primary-dark);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--border-radius-pill);
+    }
+
+    .stop-box {
+      background: #f5f9fa;
+      border-left: 3px solid var(--primary-mid);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin: 6px 0;
+      font-size: 0.76rem;
+    }
+
+    .stop-box strong {
+      color: var(--primary-dark);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .roteiro-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-save {
+      flex: 1;
+      background: #eef5f7;
+      color: var(--primary-dark);
+      border: 1px solid #c9dce2;
+      border-radius: var(--border-radius-pill);
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-save.saved {
+      background: #dff3e8;
+      color: #146c43;
+      border-color: #a3cfbb;
+    }
+
+    .btn-mission {
+      flex: 1;
+      background: var(--primary-dark);
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      border-radius: var(--border-radius-pill);
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-top: 1px solid #dce8ec;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px 10px;
+      z-index: 30;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      text-decoration: none;
+      color: #6b828a;
+      font-size: 0.66rem;
+      font-weight: 600;
+    }
+
+    .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+    .nav-item.active { color: var(--primary-dark); }
+  </style>
+</head>
+<body>
+  <main class="app-container">
+    <header class="page-header">
+      <h1>🗺️ Roteiros do Litoral</h1>
+      <p>Programações pensadas para o litoral norte de Pernambuco</p>
+    </header>
+
+    <div class="city-filter-row" id="cityFilterRow">
+      <button type="button" class="city-btn active" data-city="Todas">Todas</button>
+      <button type="button" class="city-btn" data-city="Olinda">Olinda</button>
+      <button type="button" class="city-btn" data-city="Paulista">Paulista</button>
+      <button type="button" class="city-btn" data-city="Igarassu">Igarassu</button>
+      <button type="button" class="city-btn" data-city="Itapissuma">Itapissuma</button>
+      <button type="button" class="city-btn" data-city="Itamaracá">Itamaracá</button>
+      <button type="button" class="city-btn" data-city="Goiana">Goiana</button>
+    </div>
+
+    <section class="roteiros-list" id="roteirosContainer"></section>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Início
+      </a>
+      <a href="roteiros.html" class="nav-item active">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Roteiros
+      </a>
+      <a href="assistente.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        IA
+      </a>
+      <a href="guias.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Caça-maré
+      </a>
+      <a href="perfil.html" class="nav-item">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        Perfil
+      </a>
+    </nav>
+  </main>
+
+  <script>
+    const ROTEIROS_DATA = [
+      {
+        id: 'rot-olinda-igarassu',
+        titulo: 'Raízes Históricas: Olinda e Igarassu',
+        cidade: 'Olinda',
+        duracao: '1 dia',
+        paradas: [
+          { hora: '08:30', local: 'Alto da Sé e Mosteiro de São Bento (Olinda)', dica: 'Vista panorâmica e caminhada nas ladeiras.' },
+          { hora: '13:00', local: 'Sítio Histórico de Igarassu', dica: 'Visita à Igreja dos Santos Cosme e Damião e gastronomia local.' }
+        ]
+      },
+      {
+        id: 'rot-itamaraca-itapissuma',
+        titulo: 'Canal de Santa Cruz e Forte Orange',
+        cidade: 'Itamaracá',
+        duracao: '1 dia',
+        paradas: [
+          { hora: '09:00', local: 'Travessia por Itapissuma até Ilha de Itamaracá', dica: 'Atenção à tábua de marés para passeios de barco.' },
+          { hora: '11:30', local: 'Forte Orange e Coroa do Avião', dica: 'Ótima opção para fotos e missão da jornada.' }
+        ]
+      },
+      {
+        id: 'rot-paulista-goiana',
+        titulo: 'Orla de Paulista e Marés de Goiana',
+        cidade: 'Paulista',
+        duracao: '2 dias',
+        paradas: [
+          { hora: 'Dia 1', local: 'Maria Farinha e Orla de Paulista', dica: 'Passeio náutico e descanso à beira-mar.' },
+          { hora: 'Dia 2', local: 'Ponta de Pedras e Carne de Vaca (Goiana)', dica: 'Piscinas naturais e culinária regional.' }
+        ]
+      }
+    ];
+
+    const SAVED_KEY = 'marejar_roteiros_salvos_v1';
+    let cidadeAtual = 'Todas';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.city-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.city-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          cidadeAtual = btn.dataset.city;
+          renderRoteiros();
+        });
+      });
+      renderRoteiros();
+    });
+
+    function getSalvos() {
+      try {
+        return JSON.parse(localStorage.getItem(SAVED_KEY)) || [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function toggleSalvar(id) {
+      const salvos = getSalvos();
+      const idx = salvos.indexOf(id);
+      if (idx >= 0) salvos.splice(idx, 1);
+      else salvos.push(id);
+      localStorage.setItem(SAVED_KEY, JSON.stringify(salvos));
+      renderRoteiros();
+    }
+
+    function renderRoteiros() {
+      const salvos = getSalvos();
+      const container = document.getElementById('roteirosContainer');
+      const lista = ROTEIROS_DATA.filter(r => cidadeAtual === 'Todas' || r.cidade === cidadeAtual);
+
+      container.innerHTML = lista.map(r => {
+        const isSaved = salvos.includes(r.id);
+        return `
+          <div class="roteiro-card">
+            <div class="roteiro-top">
+              <div>
+                <h3 style="margin:0 0 4px;font-size:0.98rem;color:var(--primary-dark);">${r.titulo}</h3>
+                <span style="font-size:0.74rem;color:var(--text-muted);">⏱️ ${r.duracao} • 📍 ${r.cidade}</span>
+              </div>
+              <span class="roteiro-badge">${r.cidade}</span>
+            </div>
+            ${r.paradas.map(p => `
+              <div class="stop-box">
+                <strong>${p.hora} — ${p.local}</strong>
+                <span style="color:var(--text-muted);">${p.dica}</span>
+              </div>
+            `).join('')}
+            <div class="roteiro-actions">
+              <button type="button" class="btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSalvar('${r.id}')">
+                ${isSaved ? '✓ Salvo no roteiro' : '+ Salvar roteiro'}
+              </button>
+              <a href="guias.html" class="btn-mission">Ir ao Caça-maré</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>
