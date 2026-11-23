@@ -198,7 +198,7 @@
 <body>
   <main class="app-container">
     <header class="page-header">
-      <h1>🗺️ Roteiros do Litoral</h1>
+      <h1>Roteiros do Litoral</h1>
       <p>Programações pensadas para o litoral norte de Pernambuco</p>
     </header>
 
@@ -316,7 +316,7 @@
             <div class="roteiro-top">
               <div>
                 <h3 style="margin:0 0 4px;font-size:0.98rem;color:var(--primary-dark);">${r.titulo}</h3>
-                <span style="font-size:0.74rem;color:var(--text-muted);">⏱️ ${r.duracao} • 📍 ${r.cidade}</span>
+                <span style="font-size:0.74rem;color:var(--text-muted);">${r.duracao} • ${r.cidade}</span>
               </div>
               <span class="roteiro-badge">${r.cidade}</span>
             </div>
@@ -328,7 +328,7 @@
             `).join('')}
             <div class="roteiro-actions">
               <button type="button" class="btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSalvar('${r.id}')">
-                ${isSaved ? '✓ Salvo no roteiro' : '+ Salvar roteiro'}
+                ${isSaved ? 'Salvo no roteiro' : '+ Salvar roteiro'}
               </button>
               <a href="guias.html" class="btn-mission">Ir ao Caça-maré</a>
             </div>

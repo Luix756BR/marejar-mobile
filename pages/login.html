@@ -61,7 +61,6 @@
     .submit-wrapper {
       text-align: center;
     }
-    /* Estilo para o botão quando desativado */
     .btn-custom {
       background: transparent;
       border: 2px solid var(--surface-white);
@@ -122,7 +121,6 @@
         <a href="#" class="forgot-link">Esqueci minha senha</a>
 
         <div class="submit-wrapper">
-          <!-- Botão começa desativado (disabled) -->
           <button type="submit" id="btnProximo" class="btn-custom" disabled>Próximo</button>
         </div>
       </form>
@@ -139,7 +137,6 @@
     const btnProximo = document.getElementById('btnProximo');
     const loginForm = document.getElementById('loginForm');
 
-    // Função que verifica se ambos os campos contêm texto
     function validarCampos() {
       if (emailInput.value.trim() !== "" && senhaInput.value.trim() !== "") {
         btnProximo.removeAttribute('disabled');
@@ -148,14 +145,11 @@
       }
     }
 
-    // Ouve qualquer alteração nos inputs
     emailInput.addEventListener('input', validarCampos);
     senhaInput.addEventListener('input', validarCampos);
 
-    // Evento ao submeter o formulário (leva para a Home)
     loginForm.addEventListener('submit', function(e) {
-      e.preventDefault(); // Evita recarregar a página
-      // Simula o login bem-sucedido e redireciona para a tela principal
+      e.preventDefault();
       window.location.href = 'home.html';
     });
   </script>

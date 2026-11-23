@@ -54,7 +54,6 @@
       text-align: center;
       margin-top: 16px;
     }
-    /* Estilo do botão com suporte a disabled */
     .btn-custom {
       background: transparent;
       border: 2px solid var(--surface-white);
@@ -118,7 +117,6 @@
         </div>
 
         <div class="submit-wrapper">
-          <!-- Botão começa desativado -->
           <button type="submit" id="btnProximoCadastro" class="btn-custom" disabled>Próximo</button>
         </div>
       </form>
@@ -130,7 +128,6 @@
     const btnProximoCadastro = document.getElementById('btnProximoCadastro');
     const cadastroForm = document.getElementById('cadastroForm');
 
-    // Função que verifica se TODOS os campos estão preenchidos
     function validarFormularioCadastro() {
       let todosPreenchidos = true;
 
@@ -147,15 +144,13 @@
       }
     }
 
-    // Adiciona o listener de input para cada campo do formulário
     inputs.forEach(input => {
       input.addEventListener('input', validarFormularioCadastro);
     });
 
-    // Evento ao submeter o formulário (avança para a verificação)
     cadastroForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      window.location.href = 'home.html'; // Redireciona para a tela principal após o cadastro
+      window.location.href = 'home.html';
     });
   </script>
 </body>

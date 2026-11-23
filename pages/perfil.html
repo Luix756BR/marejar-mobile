@@ -187,7 +187,7 @@
       <div class="card-box">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <strong style="font-size:0.9rem;color:var(--primary-dark);">Informações da Conta</strong>
-          <span id="perfilXpResumo" style="font-size:0.74rem;font-weight:700;color:#165e70;">⭐ 450 XP</span>
+          <span id="perfilXpResumo" style="font-size:0.74rem;font-weight:700;color:#165e70;">450 XP</span>
         </div>
 
         <div id="viewMode">
@@ -209,8 +209,8 @@
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn-primary-m" onclick="alternarEdicao(true)">✏️ Editar Perfil</button>
-            <a href="guias.html" class="btn-outline-m" style="text-decoration:none;display:inline-flex;align-items:center;">🏆 Caça-maré</a>
+            <button type="button" class="btn-primary-m" onclick="alternarEdicao(true)">Editar Perfil</button>
+            <a href="guias.html" class="btn-outline-m" style="text-decoration:none;display:inline-flex;align-items:center;">Caça-maré</a>
           </div>
         </div>
 
@@ -312,7 +312,7 @@
       try {
         const jornada = JSON.parse(localStorage.getItem('marejar_jornada_v1'));
         if (jornada && typeof jornada.saldoPontos === 'number') {
-          document.getElementById('perfilXpResumo').textContent = `⭐ ${jornada.saldoPontos} XP`;
+          document.getElementById('perfilXpResumo').textContent = `${jornada.saldoPontos} XP`;
         }
         const salvos = JSON.parse(localStorage.getItem('marejar_roteiros_salvos_v1')) || [];
         document.getElementById('qtdRoteirosSalvos').textContent = salvos.length;

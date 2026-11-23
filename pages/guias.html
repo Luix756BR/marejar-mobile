@@ -250,7 +250,7 @@
 <body>
   <main class="app-container">
     <header class="hunt-header">
-      <span style="font-size:0.7rem;background:rgba(255,255,255,0.16);padding:3px 10px;border-radius:999px;">🏆 Jornada &amp; Gamificação</span>
+      <span style="font-size:0.7rem;background:rgba(255,255,255,0.16);padding:3px 10px;border-radius:999px;">Jornada &amp; Gamificação</span>
       <h1>Caça-maré</h1>
       <p>Complete missões nos roteiros, envie evidências e resgate recompensas</p>
     </header>
@@ -276,7 +276,7 @@
       </div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <strong style="font-size:0.88rem;color:var(--primary-dark);">🏅 Conquistas por Região</strong>
+        <strong style="font-size:0.88rem;color:var(--primary-dark);">Conquistas por Região</strong>
         <button type="button" id="btn-resetar-progresso" style="background:none;border:none;color:#165e70;font-size:0.72rem;font-weight:700;cursor:pointer;">Resetar teste</button>
       </div>
       <div id="conquistas-regiao-container" style="margin-bottom:14px;"></div>
@@ -292,10 +292,10 @@
 
       <div id="lista-missoes-container" style="margin-bottom:16px;"></div>
 
-      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">🎁 Loja de Recompensas</strong>
+      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">Loja de Recompensas</strong>
       <div id="catalogo-recompensas" style="margin-bottom:16px;"></div>
 
-      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">📜 Histórico de Conquistas e Resgates</strong>
+      <strong style="display:block;font-size:0.9rem;color:var(--primary-dark);margin-bottom:8px;">Histórico de Conquistas e Resgates</strong>
       <div id="historico-container" class="history-box" style="font-size:0.76rem;color:var(--text-muted);"></div>
     </div>
 
@@ -303,7 +303,7 @@
       <div class="modal-card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
           <h3 id="modal-missao-titulo" style="margin:0;font-size:1rem;color:var(--primary-dark);">Enviar evidência</h3>
-          <button type="button" onclick="fecharModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;">✕</button>
+          <button type="button" onclick="fecharModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;">X</button>
         </div>
         <p id="modal-missao-descricao" style="margin:0 0 8px;font-size:0.76rem;color:var(--text-muted);"></p>
         <div style="margin-bottom:10px;display:flex;gap:6px;flex-wrap:wrap;">
@@ -455,7 +455,7 @@
         } else {
           img.style.display = 'none';
           vid.style.display = 'block';
-          vid.textContent = `🎬 ${file.name}`;
+          vid.textContent = file.name;
         }
       });
 
@@ -601,7 +601,7 @@
             </div>
             <p style="margin:0 0 8px;font-size:0.74rem;color:var(--text-muted);">${m.descricao}</p>
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-              <span class="${done ? 'badge-done' : 'badge-pend'}">${done ? '✓ Concluída' : rev ? '⏳ Em revisão' : '📷 Pendente'}</span>
+              <span class="${done ? 'badge-done' : 'badge-pend'}">${done ? 'Concluída' : rev ? 'Em revisão' : 'Pendente'}</span>
               ${done ? '<span style="font-size:0.72rem;color:#198754;font-weight:700;">Validada</span>'
                      : `<button type="button" class="btn-action" onclick="abrirModal('${m.id}')">${rev ? 'Reenviar' : 'Enviar evidência'}</button>`}
             </div>

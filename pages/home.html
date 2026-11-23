@@ -63,15 +63,10 @@
       text-overflow: ellipsis;
     }
 
-    .xp-pill {
-      background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: bold;
-      padding: 4px 10px;
-      border-radius: var(--border-radius-pill);
-      text-decoration: none;
+    .header-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
       flex-shrink: 0;
     }
 
@@ -263,27 +258,26 @@
   <main class="app-container">
     <header class="home-header">
       <div class="top-bar">
-        <div class="location-badge">📍 ETE Jurandir Bezerra Lins • Litoral PE</div>
-        <img src="..assets/img/Logo-branca" alt="">
+        <div class="location-badge">ETE Jurandir Bezerra Lins • Litoral PE</div>
+        <img src="../assets/img/Logo-branca.png" alt="Logo Marejar" class="header-logo">
       </div>
       <div class="search-box">
-        <span>🔍</span>
         <input type="search" id="homeSearchInput" placeholder="Para onde você quer ir? (ex: Itamaracá, Goiana...)">
       </div>
     </header>
 
     <div class="category-strip" id="categoryStrip">
       <button type="button" class="cat-chip active" data-cat="todos">Todos</button>
-      <button type="button" class="cat-chip" data-cat="Praias">🏖️ Praias</button>
-      <button type="button" class="cat-chip" data-cat="História">🏛️ História</button>
-      <button type="button" class="cat-chip" data-cat="Cultura">🎭 Cultura</button>
-      <button type="button" class="cat-chip" data-cat="Gastronomia">🍤 Gastronomia</button>
+      <button type="button" class="cat-chip" data-cat="Praias">Praias</button>
+      <button type="button" class="cat-chip" data-cat="História">História</button>
+      <button type="button" class="cat-chip" data-cat="Cultura">Cultura</button>
+      <button type="button" class="cat-chip" data-cat="Gastronomia">Gastronomia</button>
     </div>
 
     <div class="content-body">
       <div class="section-header">
         <h3 class="section-title">Destinos e Vivências Populares</h3>
-        <a href="roteiros.html" class="section-link">Ver roteiros →</a>
+        <a href="roteiros.html" class="section-link">Ver roteiros</a>
       </div>
       <div id="homeCardsContainer"></div>
     </div>
@@ -349,7 +343,7 @@
       },
       {
         id: 'olinda',
-        titulo: 'Rota Histórica de olinda',
+        titulo: 'Rota Histórica de Olinda',
         local: 'Olinda',
         dias: '1 dia',
         pessoas: '2 pessoas',
@@ -357,13 +351,67 @@
         categoria: 'Gastronomia',
         descricao: 'Ladeiras históricas, igrejas seculares e parada gastronômica com guia local.',
         imagem: '../assets/img/cidades/olinda/Mercado-da-Ribeira-Olinda-PE-MTur.webp'
+      },
+      {
+        id: 'carne-de-vaca',
+        titulo: 'Carne de Vaca',
+        local: 'Goiana',
+        dias: '2 dias',
+        pessoas: '2 pessoas',
+        preco: 'R$ 380,00',
+        categoria: 'Praias',
+        descricao: 'Desfrute das belezas rústicas e águas tranquilas do litoral norte.',
+        imagem: '../assets/img/cidades/goiana/carne de vaca.jpg'
+      },
+      {
+        id: 'igreja-cosme-damiao',
+        titulo: 'Igreja de Cosme e Damião',
+        local: 'Igarassu',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 80,00',
+        categoria: 'História',
+        descricao: 'A igreja em funcionamento mais antiga do Brasil, fundada em 1535.',
+        imagem: '../assets/img/cidades/igarassu/igreja-santos-cosme-damiao.jpg'
+      },
+      {
+        id: 'oficina-ceramica',
+        titulo: 'Oficina de Cerâmica Figurativa',
+        local: 'Goiana',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 130,00',
+        categoria: 'Cultura',
+        descricao: 'Imersão cultural sobre a arte dos bonecos de barro.',
+        imagem: '../assets/img/cidades/goiana/oficina de ceramica tradicional.jpg'
+      },
+      {
+        id: 'polo-caldeirada',
+        titulo: 'Polo da Caldeirada e Orla',
+        local: 'Itapissuma',
+        dias: '1 dia',
+        pessoas: '2 pessoas',
+        preco: 'R$ 190,00',
+        categoria: 'Gastronomia',
+        descricao: 'Experiência saboreando a tradicional caldeirada de frutos do mar.',
+        imagem: '../assets/img/cidades/itapissuma/polo.webp'
+      },
+      {
+        id: 'praia-capitao',
+        titulo: 'Praia do Capitão',
+        local: 'Igarassu',
+        dias: '2 dias',
+        pessoas: '2 pessoas',
+        preco: 'R$ 360,00',
+        categoria: 'Praias',
+        descricao: 'Um refúgio tranquilo com paisagens do Canal de Santa Cruz.',
+        imagem: '../assets/img/cidades/igarassu/praiacapitao.webp'
       }
     ];
 
     let categoriaSelecionada = 'todos';
 
     document.addEventListener('DOMContentLoaded', () => {
-      atualizarBadgeXp();
       renderizarCardsHome();
 
       document.getElementById('homeSearchInput').addEventListener('input', renderizarCardsHome);
@@ -376,15 +424,6 @@
         });
       });
     });
-
-    function atualizarBadgeXp() {
-      try {
-        const jornada = JSON.parse(localStorage.getItem('marejar_jornada_v1'));
-        if (jornada && typeof jornada.saldoPontos === 'number') {
-          document.getElementById('home-xp-badge').textContent = `⭐ ${jornada.saldoPontos} XP`;
-        }
-      } catch (_) {}
-    }
 
     function renderizarCardsHome() {
       const termo = document.getElementById('homeSearchInput').value.trim().toLowerCase();
@@ -412,9 +451,9 @@
           </div>
           <div class="mobile-package-content">
             <div class="meta-row">
-              <span>📍 ${item.local}</span>
-              <span>📅 ${item.dias}</span>
-              <span>👥 ${item.pessoas}</span>
+              <span>${item.local}</span>
+              <span>${item.dias}</span>
+              <span>${item.pessoas}</span>
             </div>
             <h4 style="font-size:0.96rem;margin:0 0 6px;color:var(--primary-dark);">${item.titulo}</h4>
             <p style="font-size:0.76rem;color:var(--text-muted);margin:0;line-height:1.4;">${item.descricao}</p>
